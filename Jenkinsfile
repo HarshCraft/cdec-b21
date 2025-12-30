@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'slave1a'
-    }
+    agent any
 
     stages {
 
@@ -15,7 +13,7 @@ pipeline {
             steps {
                 dir('backend') {
                     sh '''
-                        mvn clean package -DskipTests
+                    mvn clean package -DskipTests
                     '''
                 }
             }
