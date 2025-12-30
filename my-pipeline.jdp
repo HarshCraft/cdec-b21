@@ -6,7 +6,7 @@ pipeline {
 
         stage('PULL') {
             steps {
-                git 'https://github.com/chetanraval07/cdec-batch21.git'
+                git 'https://github.com/HarshCraft/cdec-b21.git'
             }
         }
 
