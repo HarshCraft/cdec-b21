@@ -21,7 +21,15 @@ pipeline {
 
         stage('TEST') {
             steps {
-                echo "TEST SUCCESS"
+                withSonarQubeEnv('sonar-token1') {
+                    dir('backend') {
+                        sh '''
+                            mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                              -Dsonar.projectKey=sonarp \
+                              -Dsonar.projectName=sonarp
+                        '''
+                    }
+                }
             }
         }
 
