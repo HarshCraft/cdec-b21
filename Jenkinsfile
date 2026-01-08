@@ -42,16 +42,24 @@ stage('QUALITY GATE') {
         }
 
         stage('DELIVERY') {
-    steps {
-        dir('backend') {
-            sh '''
-            aws s3 cp target/student-registration-backend-0.0.1-SNAPSHOT.jar \
-            s3://diamond-head/student-artifact.jar
-            '''
+            steps {
+                dir('backend') {
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'aws-cred',
+                            usernameVariable: 'AWS_ACCESS_KEY_ID',
+                            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+                        )
+                    ]) {
+                        sh '''
+                        export AWS_DEFAULT_REGION=eu-west-1
+                        aws s3 cp target/student-registration-backend-0.0.1-SNAPSHOT.jar \
+                        s3://diamond-head/student-artifact.jar
+                        '''
+                    }
+                }
+            }
         }
-    }
-}
-
 
 	 stage('DEPLOY') {
             steps {
