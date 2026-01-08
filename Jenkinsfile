@@ -32,6 +32,7 @@ pipeline {
                 }
             }
         }
+
 stage('QUALITY GATE') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
@@ -39,10 +40,18 @@ stage('QUALITY GATE') {
                 }
             }
         }
-        stage('DEPLOY') {
+
+        stage('DELIVERY') {
+            steps {
+                sh 'aws s3 cp /backend/target/student-registration-backend-0.0.1-SNAPSHOT.jar s3://diamond-head/student-artifact.jar'
+            }
+        }
+
+	 stage('DEPLOY') {
             steps {
                 echo "DEPLOY SUCCESS"
             }
         }
+
     }
 }
