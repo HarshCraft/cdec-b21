@@ -53,8 +53,7 @@ stage('QUALITY GATE') {
                     ]) {
                         sh '''
                         export AWS_DEFAULT_REGION=eu-west-1
-                        aws s3 cp target/student-registration-backend-0.0.1-SNAPSHOT.jar \
-                        s3://diamond-head/student-artifact.jar
+                        aws s3 cp target/student-registration-backend-0.0.1-SNAPSHOT.jar s3://diamond-head/student-artifact.jar
                         '''
                     }
                 }
