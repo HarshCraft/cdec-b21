@@ -43,9 +43,11 @@ stage('QUALITY GATE') {
 
         stage('DELIVERY') {
             steps {
-                sh '''aws s3 cp /var/lib/jenkins/workspace/newpipeline/backend/target/student-registration-backend-0.0.1-SNAPSHOT.jar s3://diamond-head/student-artifact.jar'''
+		 dir('backend') {
+                sh '''aws s3 cp backend/target/student-registration-backend-0.0.1-SNAPSHOT.jar s3://diamond-head/student-artifact.jar'''
             }
         }
+}
 
 	 stage('DEPLOY') {
             steps {
