@@ -43,28 +43,44 @@ stage('QUALITY GATE') {
 
         stage('DELIVERY') {
             steps {
-                dir('backend') {
-                    withCredentials([
-                        usernamePassword(
-                            credentialsId: 'aws-cred',
-                            usernameVariable: 'AWS_ACCESS_KEY_ID',
-                            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
-                        )
-                    ]) {
+                dir('backend')
+                     {
                         sh '''
-                        export AWS_DEFAULT_REGION=eu-west-1
                         aws s3 cp target/student-registration-backend-0.0.1-SNAPSHOT.jar s3://diamond-head/student-artifact.jar
                         '''
                     }
                 }
             }
-        }
+        
 
-	 stage('DEPLOY') {
-            steps {
-                echo "DEPLOY SUCCESS"
-            }
-        }
+	 stage('DOCKER BUILD & PUSH') {
+  steps {
+    dir('backend') {
+      sh '''
+      aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 585019521142.dkr.ecr.eu-west-1.amazonaws.com
+
+      docker build -t student-app .
+      docker tag 585019521142.dkr.ecr.eu-west-1.amazonaws.com/student-app:latest
+      docker 585019521142.dkr.ecr.eu-west-1.amazonaws.com/student-app:latest
+      '''
+    }
+  }
+}
+
+
+stage('DEPLOY TO EKS') {
+  steps {
+    sh '''
+    aws eks update-kubeconfig --region eu-west-1 --name student-cluster
+
+    sed -i "s|<ECR-IMAGE-URL>|585019521142.dkr.ecr.eu-west-1.amazonaws.com/student-app:latest|g" backend/k8s/deployment.yml
+
+    kubectl apply -f backend/k8s/deployment.yml
+    kubectl get pods
+    kubectl get svc
+    '''
+  }
+}
 
     }
 }
