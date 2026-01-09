@@ -77,7 +77,7 @@ stage('QUALITY GATE') {
 stage('DEPLOY TO EKS') {
   steps {
     sh '''
-    aws eks update-kubeconfig --region eu-west-1 --name student-cluster
+    aws eks update-kubeconfig --region eu-west-1 --name my-cluster-19
 
     sed -i "s|<ECR-IMAGE-URL>|585019521142.dkr.ecr.eu-west-1.amazonaws.com/student-app:latest|g" backend/k8s/deployment.yml
 
