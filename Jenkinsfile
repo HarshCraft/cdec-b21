@@ -57,11 +57,17 @@ stage('QUALITY GATE') {
   steps {
     dir('backend') {
       sh '''
+      # Login to AWS ECR
       aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 585019521142.dkr.ecr.eu-west-1.amazonaws.com
 
+      # Build the Docker image
       docker build -t student-app .
-      docker tag 585019521142.dkr.ecr.eu-west-1.amazonaws.com/student-app:latest
-      docker 585019521142.dkr.ecr.eu-west-1.amazonaws.com/student-app:latest
+
+      # Tag the image for ECR
+      docker tag student-app:latest 585019521142.dkr.ecr.eu-west-1.amazonaws.com/student-app:latest
+
+      # Push the image to ECR
+      docker push 585019521142.dkr.ecr.eu-west-1.amazonaws.com/student-app:latest
       '''
     }
   }
