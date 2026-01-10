@@ -76,9 +76,8 @@ stage('QUALITY GATE') {
      docker push 585019521142.dkr.ecr.eu-west-1.amazonaws.com/student-app:latest
      '''
   }
-  }
 }
-
+}
 
 stage('DEPLOY TO EKS') {
   steps {
