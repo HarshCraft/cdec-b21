@@ -59,6 +59,16 @@ stage('QUALITY GATE') {
                     }
                 }
             }
+	stage('INFRA - EKS Creation') {
+            steps {
+                script {
+                    // Load your infra pipeline file
+                    def infra = load 'infra-pipeline.groovy'
+                    infra.runInfra()
+                }
+            }
+        }
+
          stage('DOCKER BUILD & PUSH') {
  steps {
     dir('backend') {
