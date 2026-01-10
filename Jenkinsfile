@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+	tools {
+        jdk 'jdk17'   // Use the name you gave
+        maven 'Maven 3.9.0'  // Your Maven tool name
+    }
     stages {
 
         stage('PULL') {
