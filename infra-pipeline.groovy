@@ -12,11 +12,11 @@ def runInfra() {
         }
     }
 
-    stage('TF APPLY') {
-        dir('terraform') {
-            sh 'terraform apply -auto-approve'
-        }
-    }
+#    stage('TF APPLY') {
+#       dir('terraform') {
+#            sh 'terraform apply -auto-approve'
+#        }
+#    }
 
 }
 
