@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-stage('QUALITY GATES') {
+stage('QUALITY-GATES') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
