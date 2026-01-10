@@ -8,15 +8,6 @@ pipeline {
                 git 'https://github.com/HarshCraft/cdec-b21.git'
             }
         }
-        stage('INFRA - EKS Creation') {
-            steps {
-                script {
-                    // Load your infra pipeline file
-                    def infra = load 'infra-pipeline.groovy'
-                    infra.runInfra()
-                }
-            }
-        }
         stage('BUILD') {
             steps {
                 dir('backend') {
